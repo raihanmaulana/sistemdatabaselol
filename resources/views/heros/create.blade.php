@@ -20,7 +20,7 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('heros.store') }}" method="POST">
+    <form action="/heros/create" method="POST">
         @csrf
          <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -37,8 +37,8 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>ID Atribut:</strong>
-                    <input type="number" name="id_atribut" class="form-control" placeholder="ID atribut">
+                    <strong>ID tipe:</strong>
+                    <input type="number" name="id_tipe" class="form-control" placeholder="ID tipe">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -52,7 +52,6 @@
             </div>
         </div>
     </form>
-    <p class="text-center text-primary"><small>Tutorial by LaravelTuts.com</small></p>
 @endsection
 
 

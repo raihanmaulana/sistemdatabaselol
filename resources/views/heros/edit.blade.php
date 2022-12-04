@@ -20,9 +20,8 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('heros.update',$hero->id_hero) }}" method="POST">
+    <form action="/heros/edit/{{$hero->id_hero}}" method="POST">
         @csrf
-        @method('PUT')
          <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
@@ -38,8 +37,8 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>ID Atribut:</strong>
-                    <input type="number" name="id_atribut" value="{{ $hero->id_atribut }}" class="form-control" placeholder="ID Atribut">
+                    <strong>ID tipe:</strong>
+                    <input type="number" name="id_tipe" value="{{ $hero->id_tipe }}" class="form-control" placeholder="ID tipe">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -53,6 +52,6 @@
             </div>
         </div>
     </form>
-    <p class="text-center text-primary"><small>Tutorial by LaravelTuts.com</small></p>
+
 @endsection
 

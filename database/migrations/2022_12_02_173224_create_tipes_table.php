@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('posisis', function (Blueprint $table) {
-            $table->bigInteger('id_posisi')->primary();
-            $table->string('nama_posisi');
-            $table->string('spell');
-           
+        Schema::create('tipes', function (Blueprint $table) {
+            $table->bigInteger('id_tipe')->primary();
+            $table->string('nama_tipe');
+            $table->string('tipe_serangan');
             $table->timestamps();
         });
     }
@@ -29,7 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('posisis');
+        Schema::dropIfExists('tipes');
     }
 };
-

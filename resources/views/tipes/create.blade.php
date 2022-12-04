@@ -3,10 +3,10 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>Add New Atribut</h2>
+                <h2>Add New Tipe</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('atributs.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('tipes.index') }}"> Back</a>
             </div>
         </div>
     </div>
@@ -20,27 +20,33 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('atributs.store') }}" method="POST">
+    <form action="/tipes/create" method="POST">
         @csrf
          <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>ID Atribut:</strong>
-                    <input type="number" name="id_atribut" class="form-control" placeholder="ID Atribut">
+                    <strong>ID tipe:</strong>
+                    <input type="number" name="id_tipe" class="form-control" placeholder="ID tipe">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Nama Atribut:</strong>
-                    <input type="text" name="nama_atribut" class="form-control" placeholder="Name">
+                    <strong>Nama tipe:</strong>
+                    <input type="text" name="nama_tipe" class="form-control" placeholder="Nama Tipe">
                 </div>
             </div>
-         
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Tipe Serangan:</strong>
+                    <input type="text" name="tipe_serangan" class="form-control" placeholder="Tipe Serangan">
+                </div>
+            </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                     <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </form>
-    <p class="text-center text-primary"><small>Tutorial by LaravelTuts.com</small></p>
 @endsection
+
+
 

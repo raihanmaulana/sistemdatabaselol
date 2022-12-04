@@ -3,21 +3,22 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>Atribut</h2>
+                <h2>Tipe</h2>
             </div>
             <div class="pull-right">
-                @can('atribut-create')
-                <a class="btn btn-success" href="{{ route('atributs.create') }}"> Create New Atribut</a>
+                @can('tipe-create')
+                <a class="btn btn-success" href="/tipes/create"> Create New tipe</a>
                 @endcan
-                @can('atribut-delete')
-                <a class="btn btn-info" href="atributs/trash"> Deleted Atribut</a>
+                @can('tipe-delete')
+                <a class="btn btn-info" href="tipes/trash"> Deleted tipe</a>
                 @endcan
             </div>
             <div class="my-3 col-12 col-sm-8 col-md-5">
-                <form action="" method="get">
+                <form action="/tipes/search" method="post">
+                    @csrf
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Keyword" name = "keyword" aria-label="Keyword" aria-describedby="basic-addon1">
-                        <button class="input-group-text btn btn-primary" id="basic-addon1">Search</button>
+                        <button type="submit" class="input-group-text btn btn-primary" id="basic-addon1">Search</button>
                     </div>
                 </form>
             </div>
@@ -30,24 +31,25 @@
     @endif
     <table class="table table-bordered">
         <tr>
-            <th>ID Atribut</th>
-            <th>Nama Atribut</th>
-        
+            <th>ID tipe</th>
+            <th>Nama tipe</th>
+            <th>Tipe Serangan</th>
             <th width="280px">Action</th>
         </tr>
-        @foreach ($atributs as $atribut)
+        @foreach ($tipes as $tipe)
         <tr>
-            <td>{{ $atribut->id_atribut }}</td>
-            <td>{{ $atribut->nama_atribut }}</td>
+            <td>{{ $tipe->id_tipe }}</td>
+            <td>{{ $tipe->nama_tipe }}</td>
+            <td>{{ $tipe->tipe_serangan }}</td>
             <td>
-                <form action="{{ route('atributs.destroy',$atribut->id_atribut) }}" method="POST">
-                    <a class="btn btn-info" href="{{ route('atributs.show',$atribut->id_atribut) }}">Show</a>
-                    @can('atribut-edit')
-                    <a class="btn btn-primary" href="{{ route('atributs.edit',$atribut->id_atribut) }}">Edit</a>
+                <form action="/tipes/delete/{{$tipe->id_tipe}}" method="POST">
+                    <a class="btn btn-info" href="/tipes/show/{{$tipe->id_tipe}}">Show</a>
+                    @can('tipe-edit')
+                    <a class="btn btn-primary" href="/tipes/edit/{{$tipe->id_tipe}}">Edit</a>
                     @endcan
                     @csrf
                     @method('DELETE')
-                    @can('atribut-delete')
+                    @can('tipe-delete')
                     <button type="submit" class="btn btn-danger">Delete</button>
                     @endcan
                 </form>
@@ -55,7 +57,6 @@
         </tr>
         @endforeach
     </table>
-    {!! $atributs->links() !!}
-    <p class="text-center text-primary"><small>Tutorial by LaravelTuts.com</small></p>
+    
 @endsection
 

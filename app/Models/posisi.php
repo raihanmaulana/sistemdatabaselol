@@ -2,12 +2,11 @@
   
 namespace App\Models;
   
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-  
+
+
 class posisi extends Model
 {
-    use HasFactory;
+
   
     /**
      * The attributes that are mass assignable.
@@ -15,7 +14,7 @@ class posisi extends Model
      * @var array
      */
     protected $fillable = [
-        'id_posisi', 'nama_posisi'
+        'id_posisi', 'nama_posisi', 'spell',
     ];
     protected $primaryKey = 'id_posisi';
     protected $keyType = 'bigInteger';

@@ -47,8 +47,8 @@
                             <li><a class="nav-link" href="{{ route('users.index') }}">Manage Users</a></li>
                             <li><a class="nav-link" href="{{ route('roles.index') }}">Manage Role</a></li>
                             <li><a class="nav-link" href="{{ route('heros.index') }}">Manage Hero</a></li>
-                            <li><a class="nav-link" href="{{ route('atributs.index') }}">Manage atribut</a></li>
-                            <li><a class="nav-link" href="{{ route('posisis.index') }}">Manage posisi</a></li>
+                            <li><a class="nav-link" href="{{ route('tipes.index') }}">Manage Tipe</a></li>
+                            <li><a class="nav-link" href="{{ route('posisis.index') }}">Manage Posisi</a></li>
                             <li><a class="nav-link" href="/totals">Database Hero</a></li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>

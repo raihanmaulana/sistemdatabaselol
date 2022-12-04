@@ -2,9 +2,12 @@
     
 namespace App\Http\Controllers;
     
-use App\Models\Posisi;
+use App\Models\posisi;
 use Illuminate\Http\Request;
-    
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
+
 class PosisiController extends Controller
 { 
     /**
@@ -19,16 +22,18 @@ class PosisiController extends Controller
          $this->middleware('permission:posisi-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:posisi-delete', ['only' => ['destroy']]);
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    public function getPosisis(){
+        $posisi = DB::table('posisis')->where('deleted_at', null)->get();
+        return view('posisis.index')->with(['posisis'=>$posisi]);
+    }
+
     public function index()
     {
-        $posisis = Posisi::latest()->paginate(5);
-        return view('posisis.index',compact('posisis'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        $keyword = Request()->keyword;
+        // $posisis = posisi::where('nama_posisi','LIKE','%'.$keyword.'%')->paginate(5);
+        $posisis = DB::table('posisis')->where('nama_posisi', 'like', "%$keyword%")->get();
+        return view('posisis.index')->with(['posisis' => $posisis]);
     }
     
     /**
@@ -52,69 +57,88 @@ class PosisiController extends Controller
         request()->validate([
             'id_posisi' => 'required',
             'nama_posisi' => 'required',
+            'spell' => 'required',
         ]);
     
-        Posisi::create($request->all());
+        DB::insert('INSERT INTO posisis(id_posisi, nama_posisi, spell) VALUES (:id_posisi, :nama_posisi, :spell)',
+        [
+            'id_posisi' => $request->id_posisi,
+            'nama_posisi' => $request->nama_posisi,
+            'spell' => $request->spell,
+        ]
+        );
     
         return redirect()->route('posisis.index')
-                        ->with('success','Posisi created successfully.');
+                        ->with('success','Berhasil Menambah Posisi!');
     }
     
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Posisi  $posisi
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Posisi $posisi)
+
+    public function show($id)
     {
-        return view('posisis.show',compact('posisi'));
+        $posisi_table = DB::table('posisis')->where('id_posisi', $id)->get()->first();
+        return view('posisis.show')->with(['posisi'=>$posisi_table]);
     }
     
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Posisi  $posisi
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Posisi $posisi)
+    
+    public function edit($id)
     {
-        return view('posisis.edit',compact('posisi'));
+        $posisi = DB::table('posisis')->where('id_posisi', $id)->first();
+        // return ($posisi);
+        return view('posisis.edit')->with(['posisi'=>$posisi]);
     }
     
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Posisi  $posisi
+     * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Posisi $posisi)
+    public function update(Request $request, $id)
     {
-         request()->validate([
-            'nama_posisi' => 'required',
+        $request->validate([
             'id_posisi' => 'required',
+            'nama_posisi' => 'required',
+            'spell' => 'required',
         ]);
-    
-        $posisi->update($request->all());
+        $data = [
+            'id_posisi' => $request->id_posisi,
+            'nama_posisi' => $request->nama_posisi,
+            'spell' => $request->spell,
+        ];
+        // $posisi->update($request->all());
+        DB::table('posisis')->where('id_posisi', $request->id_posisi)->update($data);
     
         return redirect()->route('posisis.index')
-                        ->with('success','Posisi updated successfully');
+                        ->with('success','Berhasil Update Posisi!');
     }
     
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Posisi  $posisi
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Posisi $posisi)
+    public function destroy($id)
     {
-        $posisi->delete();
+        $data=[
+            'deleted_at' => Carbon::now(),
+        ];
+        DB::table('posisis')->where('id_posisi', $id)->update($data);
     
         return redirect()->route('posisis.index')
-                        ->with('success','Posisi deleted successfully');
+                        ->with('success','Berhasil Menghapus Posisi!');
+    }
+    public function deletelist()
+    {
+        $deleted_table = DB::table('posisis')->where('deleted_at','!=',null)->get();
+        return view('posisis.trash')->with(['posisis'=>$deleted_table]);
+        // return ($deleted_table);
+    }
+    public function restore($id)
+    {
+        DB::table('posisis')->where('id_posisi', $id)->update(["deleted_at" => null]);
+        return redirect()->route('posisis.index')
+                        ->with('success','Berhasil Restore Posisi!');
+    }
+    public function deleteforce($id)
+    {
+        DB::table('posisis')->where('id_posisi', $id)->delete();
+        return redirect()->route('posisis.index')
+                        ->with('success','Yah Posisinya dihapus permanen :(');
     }
 }
-
-

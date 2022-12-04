@@ -7,17 +7,18 @@
             </div>
             <div class="pull-right">
                 @can('hero-create')
-                <a class="btn btn-success" href="{{ route('heros.create') }}"> Create New Hero</a>
+                <a class="btn btn-success" href="/heros/create"> Create New Hero</a>
                 @endcan
                 @can('hero-delete')
                 <a class="btn btn-info" href="heros/trash"> Deleted Hero</a>
                 @endcan
             </div>
             <div class="my-3 col-12 col-sm-8 col-md-5">
-                <form action="" method="get">
+                <form action="/heros/search" method="post">
+                    @csrf
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Keyword" name = "keyword" aria-label="Keyword" aria-describedby="basic-addon1">
-                        <button class="input-group-text btn btn-primary" id="basic-addon1">Search</button>
+                        <button type="submit" class="input-group-text btn btn-primary" id="basic-addon1">Search</button>
                     </div>
                 </form>
             </div>
@@ -32,7 +33,7 @@
         <tr>
             <th>ID Hero</th>
             <th>Nama Hero</th>
-            <th>ID Atribut</th>
+            <th>ID Tipe</th>
             <th>ID Posisi</th>
             <th width="280px">Action</th>
         </tr>
@@ -40,13 +41,13 @@
         <tr>
             <td>{{ $hero->id_hero }}</td>
             <td>{{ $hero->nama_hero }}</td>
-            <td>{{ $hero->id_atribut }}</td>
+            <td>{{ $hero->id_tipe }}</td>
             <td>{{ $hero->id_posisi }}</td>
             <td>
-                <form action="{{ route('heros.destroy',$hero->id_hero) }}" method="POST">
-                    <a class="btn btn-info" href="{{ route('heros.show',$hero->id_hero) }}">Show</a>
+                <form action="/heros/delete/{{$hero->id_hero}}" method="POST">
+                    <a class="btn btn-info" href="/heros/show/{{$hero->id_hero}}">Show</a>
                     @can('hero-edit')
-                    <a class="btn btn-primary" href="{{ route('heros.edit',$hero->id_hero) }}">Edit</a>
+                    <a class="btn btn-primary" href="/heros/edit/{{$hero->id_hero}}">Edit</a>
                     @endcan
                     @csrf
                     @method('DELETE')
@@ -58,7 +59,6 @@
         </tr>
         @endforeach
     </table>
-    {!! $heros->links() !!}
     
 @endsection
 

@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>Deleted Heros</h2>
+                <h2>Deleted Tipe</h2>
             </div>
         </div>
     </div>
@@ -14,21 +14,19 @@
     @endif
     <table class="table table-bordered">
         <tr>
-            <th>ID Hero</th>
-            <th>Nama Hero</th>
-            <th>ID Tipe</th>
-            <th>ID Posisi</th>
+            <th>ID tipe</th>
+            <th>Nama tipe</th>
+            <th>Tipe Serangan</th>
             <th width="280px">Action</th>
         </tr>
-        @foreach ($heros as $hero)
+        @foreach ($tipes as $tipe)
         <tr>
-            <td>{{ $hero->id_hero }}</td>
-            <td>{{ $hero->nama_hero }}</td>
-            <td>{{ $hero->id_tipe }}</td>
-            <td>{{ $hero->id_posisi }}</td>
+            <td>{{ $tipe->id_tipe }}</td>
+            <td>{{ $tipe->nama_tipe }}</td>
+            <td>{{ $tipe->tipe_serangan }}</td>
             <td>
                 <div class="d-flex gap-3">
-                    <form class="m-0" id="restoreForm" action="/heros/trash/restore/{{$hero->id_hero}}" method="POST">
+                    <form class="m-0" id="restoreForm" action="/tipes/trash/restore/{{$tipe->id_tipe}}" method="POST">
                         @csrf
                          <button class="btn btn-info" type="submit">Restore</button>
                     </form>
@@ -54,7 +52,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                <form action="/heros/trash/forcedelete/{{$hero->id_hero}}" method="POST">
+                                <form action="/tipes/trash/forcedelete/{{$tipe->id_tipe}}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button class="btn btn-danger" type="submit">Delete</button>
@@ -64,7 +62,7 @@
                         </div>
                     </div>
                 </div>
-                    <!-- <a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="trash/{{ $hero->id_hero }}/forcedelete">Delete</a> -->
+                    <!-- <a class="btn btn-danger" onclick="return confirm('Are you sure?')" href="trash/{{ $tipe->id_tipe }}/forcedelete">Delete</a> -->
             </td>
         </tr>
         @endforeach

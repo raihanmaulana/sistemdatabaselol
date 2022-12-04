@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('heroes', function (Blueprint $table) {
             $table->bigInteger('id_hero')->primary();
             $table->string('nama_hero');
-            $table->bigInteger('id_atribut');
+            $table->bigInteger('id_tipe');
             $table->bigInteger('id_posisi');
             $table->timestamps();
         });

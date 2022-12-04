@@ -20,28 +20,32 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('posisis.update',$posisi->id_posisi) }}" method="POST">
+    <form action="/posisis/edit/{{$posisi->id_posisi}}" method="POST">
         @csrf
-        @method('PUT')
          <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>ID Posisi:</strong>
-                    <input type="number" name="id_posisi" value="{{ $posisi->id_posisi }}" class="form-control" placeholder="ID Posisi">
+                    <strong>ID posisi:</strong>
+                    <input type="number" name="id_posisi" value="{{ $posisi->id_posisi }}" class="form-control" placeholder="ID posisi">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Nama Posisi:</strong>
+                    <strong>Nama posisi:</strong>
                     <input type="text" name="nama_posisi" value="{{ $posisi->nama_posisi }}" class="form-control" placeholder="Name">
                 </div>
             </div>
-            
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Spell:</strong>
+                    <input type="text" name="spell" value="{{ $posisi->spell }}" class="form-control" placeholder="Spell">
+                </div>
+            </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
               <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </form>
-@endsection
 
+@endsection
 

@@ -13,18 +13,22 @@
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>ID Posisi:</strong>
+                <strong>ID posisi:</strong>
                 {{ $posisi->id_posisi }}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Nama Posisi:</strong>
+                <strong>Nama posisi:</strong>
                 {{ $posisi->nama_posisi }}
             </div>
         </div>
-        
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="form-group">
+                <strong>Spell:</strong>
+                {{ $posisi->spell }}
+            </div>
+        </div>
     </div>
 @endsection
-
 

@@ -13,10 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('atributs', function (Blueprint $table) {
-            $table->bigInteger('id_atribut')->primary();
-            $table->string('nama_atribut');
-            $table->timestamps();
+        Schema::table('tipes', function (Blueprint $table) {
+            $table->softDeletes();
         });
     }
 
@@ -27,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('atributs');
+        Schema::table('tipes', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

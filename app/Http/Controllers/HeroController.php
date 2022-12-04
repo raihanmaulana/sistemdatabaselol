@@ -6,7 +6,8 @@ use App\Models\Hero;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-    
+use Carbon\Carbon;
+
 class HeroController extends Controller
 { 
     /**
@@ -21,17 +22,18 @@ class HeroController extends Controller
          $this->middleware('permission:hero-edit', ['only' => ['edit','update']]);
          $this->middleware('permission:hero-delete', ['only' => ['destroy']]);
     }
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
+
+    public function getHeroes(){
+        $hero = DB::table('heroes')->where('deleted_at', null)->get();
+        return view('heros.index')->with(['heros'=>$hero]);
+    }
+
+    public function index()
     {
-        $keyword = $request->keyword;
-        $heros = Hero::where('nama_hero','LIKE','%'.$keyword.'%')->paginate(5);
-        return view('heros.index',compact('heros'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+        $keyword = Request()->keyword;
+        // $heros = Hero::where('nama_hero','LIKE','%'.$keyword.'%')->paginate(5);
+        $heroes = DB::table('heroes')->where('nama_hero', 'like', "%$keyword%")->get();
+        return view('heros.index')->with(['heros' => $heroes]);
     }
     
     /**
@@ -55,44 +57,36 @@ class HeroController extends Controller
         request()->validate([
             'id_hero' => 'required',
             'nama_hero' => 'required',
-            'id_atribut' => 'required',
+            'id_tipe' => 'required',
             'id_posisi' => 'required',
         ]);
     
-        DB::insert('INSERT INTO heros(id_hero, nama_hero, id_atribut, id_posisi) VALUES (:id_hero, :nama_hero, :id_atribut, :id_posisi)',
+        DB::insert('INSERT INTO heroes(id_hero, nama_hero, id_tipe, id_posisi) VALUES (:id_hero, :nama_hero, :id_tipe, :id_posisi)',
         [
             'id_hero' => $request->id_hero,
             'nama_hero' => $request->nama_hero,
-            'id_atribut' => $request->id_atribut,
+            'id_tipe' => $request->id_tipe,
             'id_posisi' => $request->id_posisi,
         ]
         );
     
         return redirect()->route('heros.index')
-                        ->with('success','Hero created successfully.');
+                        ->with('success','Berhasil Menambah Hero!');
     }
     
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Hero $hero)
+
+    public function show($id)
     {
-        return view('heros.show',compact('hero'));
+        $hero_table = DB::table('heroes')->where('id_hero', $id)->get()->first();
+        return view('heros.show')->with(['hero'=>$hero_table]);
     }
     
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Hero $hero)
+    
+    public function edit($id)
     {
-        $data = DB::table('heroes')->where('id_hero', $hero)->first();
-        return view('heros.edit',compact('hero'));
+        $hero = DB::table('heroes')->where('id_hero', $id)->first();
+        // return ($hero);
+        return view('heros.edit')->with(['hero'=>$hero]);
     }
     
     /**
@@ -102,51 +96,53 @@ class HeroController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Hero $hero)
+    public function update(Request $request, $id)
     {
-         request()->validate([
+        $request->validate([
             'id_hero' => 'required',
             'nama_hero' => 'required',
-            'id_atribut' => 'required',
+            'id_tipe' => 'required',
             'id_posisi' => 'required'
         ]);
-    
-        $hero->update($request->all());
+        $data = [
+            'id_hero' => $request->id_hero,
+            'nama_hero' => $request->nama_hero,
+            'id_tipe' => $request->id_tipe,
+            'id_posisi' => $request->id_posisi,
+        ];
+        // $hero->update($request->all());
+        DB::table('heroes')->where('id_hero', $request->id_hero)->update($data);
     
         return redirect()->route('heros.index')
-                        ->with('success','Hero updated successfully');
+                        ->with('success','Berhasil Update Hero!');
     }
     
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Hero $hero)
+    public function destroy($id)
     {
-        $hero->delete();
+        $data=[
+            'deleted_at' => Carbon::now(),
+        ];
+        DB::table('heroes')->where('id_hero', $id)->update($data);
     
         return redirect()->route('heros.index')
-                        ->with('success','Hero deleted successfully');
+                        ->with('success','Berhasil Menghapus Hero!');
     }
     public function deletelist()
     {
-        $heros = Hero::onlyTrashed()->paginate(5);
-        return view('/heros/trash',compact('heros'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
-
+        $deleted_table = DB::table('heroes')->where('deleted_at','!=',null)->get();
+        return view('heros.trash')->with(['heros'=>$deleted_table]);
+        // return ($deleted_table);
     }
     public function restore($id)
     {
-        $hero = Hero::withTrashed()->where('id_hero',$id)->restore();
+        DB::table('heroes')->where('id_hero', $id)->update(["deleted_at" => null]);
         return redirect()->route('heros.index')
-                        ->with('success','Hero Restored successfully');
+                        ->with('success','Berhasil Restore Hero!');
     }
     public function deleteforce($id)
     {
-        $hero = Hero::withTrashed()->where('id_hero',$id)->forceDelete();
+        DB::table('heroes')->where('id_hero', $id)->delete();
         return redirect()->route('heros.index')
-                        ->with('success','Hero Deleted Permanently');
+                        ->with('success','Yah, heronya dihapus permanen :(');
     }
 }

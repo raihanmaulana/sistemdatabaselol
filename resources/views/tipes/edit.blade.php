@@ -3,10 +3,10 @@
     <div class="row">
         <div class="col-lg-12 margin-tb">
             <div class="pull-left">
-                <h2>Edit Atribut</h2>
+                <h2>Edit Tipe</h2>
             </div>
             <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('atributs.index') }}"> Back</a>
+                <a class="btn btn-primary" href="{{ route('tipes.index') }}"> Back</a>
             </div>
         </div>
     </div>
@@ -20,28 +20,32 @@
             </ul>
         </div>
     @endif
-    <form action="{{ route('atributs.update',$atribut->id_atribut) }}" method="POST">
+    <form action="/tipes/edit/{{$tipe->id_tipe}}" method="POST">
         @csrf
-        @method('PUT')
          <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>ID Atribut:</strong>
-                    <input type="number" name="id_atribut" value="{{ $atribut->id_atribut }}" class="form-control" placeholder="ID Atribut">
+                    <strong>ID tipe:</strong>
+                    <input type="number" name="id_tipe" value="{{ $tipe->id_tipe }}" class="form-control" placeholder="ID tipe">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Nama Atribut:</strong>
-                    <input type="text" name="nama_atribut" value="{{ $atribut->nama_atribut }}" class="form-control" placeholder="Name">
+                    <strong>Nama tipe:</strong>
+                    <input type="text" name="nama_tipe" value="{{ $tipe->nama_tipe }}" class="form-control" placeholder="Name">
                 </div>
             </div>
-            
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Tipe Serangan:</strong>
+                    <input type="text" name="id_tipe" value="{{ $tipe->tipe_serangan }}" class="form-control" placeholder="Tipe Serangan">
+                </div>
+            </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
               <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>
     </form>
-    <p class="text-center text-primary"><small>Tutorial by LaravelTuts.com</small></p>
+
 @endsection
 

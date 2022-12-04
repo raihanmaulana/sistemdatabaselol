@@ -3,8 +3,7 @@
 namespace App\Models;
   
 
-  
-class Hero extends Model
+class tipe extends Model
 {
     
   
@@ -14,9 +13,10 @@ class Hero extends Model
      * @var array
      */
     protected $fillable = [
-        'id_hero', 'nama_hero','id_tipe','id_posisi'
+        'id_tipe', 'nama_tipe','tipe_serangan'
     ];
-    protected $primaryKey = 'id_hero';
+    protected $primaryKey = 'id_tipe';
     protected $keyType = 'bigInteger';
     public $incrementing = false;
+
 }

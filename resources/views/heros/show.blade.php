@@ -25,8 +25,8 @@
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>ID Atribut:</strong>
-                {{ $hero->id_atribut }}
+                <strong>ID Tipe:</strong>
+                {{ $hero->id_tipe }}
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -37,5 +37,4 @@
         </div>
     </div>
 @endsection
-<p class="text-center text-primary"><small>Tutorial by LaravelTuts.com</small></p>
 
